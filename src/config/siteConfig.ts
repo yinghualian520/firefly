@@ -7,13 +7,13 @@ const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Firefly",
+	title: "流萤",
 
 	// 站点副标题
-	subtitle: "Demo site",
+	subtitle: "生命因何而沉睡，因为我们终将会醒来",
 
 	// 站点 URL
-	site_url: "https://firefly.cuteleaf.cn",
+	site_url: "https://ailiuying1314.com",
 
 	// 站点描述
 	description:
