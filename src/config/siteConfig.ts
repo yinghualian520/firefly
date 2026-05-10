@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
 
 	// 站点描述
 	description:
-		"Firefly 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。",
+		"流萤小姐美貌天下无双",
 
 	// 站点关键词
 	keywords: [
@@ -128,7 +128,7 @@ export const siteConfig: SiteConfig = {
 		// 赞助页面开关
 		sponsor: false,
 		// 留言板页面开关，需要配置评论系统
-		guestbook: false,
+		guestbook: true,
 		// 番组计划页面开关，含追番、游戏、书籍和音乐，dev调试时只获取一页数据，build才会获取全部数据
 		bangumi: false,
 		// 相册页面开关
