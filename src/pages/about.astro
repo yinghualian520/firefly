@@ -1,5 +1,4 @@
 ---
-
 import { getEntry, render } from "astro:content";
 import Markdown from "@components/common/Markdown.astro";
 import I18nKey from "@/i18n/i18nKey";
@@ -9,17 +8,64 @@ import MainGridLayout from "@/layouts/MainGridLayout.astro";
 const aboutPost = await getEntry("spec", "about");
 
 if (!aboutPost) {
-	throw new Error("About page content not found");
+    throw new Error("About page content not found");
 }
 
 const { Content } = await render(aboutPost);
 ---
 <MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32">
+    <div id="about-content" class="flex w-full rounded-(--radius-large) overflow-hidden relative min-h-32" style="display:none;">
         <div class="card-base z-10 px-9 py-6 relative w-full ">
             <Markdown class="mt-2">
                 <Content />
             </Markdown>
         </div>
     </div>
+    <div id="password-overlay" class="flex flex-col items-center justify-center w-full min-h-64 gap-4">
+        <div style="font-size:3rem;">🔒</div>
+        <h3 style="font-size:1.2rem;font-weight:600;">需要密码才能查看</h3>
+        <div class="flex items-center gap-2">
+            <input type="password" id="pwd-input" placeholder="请输入密码" 
+                style="padding:10px 14px;border:1px solid #ccc;border-radius:8px;font-size:14px;width:200px;" />
+            <button id="pwd-btn" 
+                style="padding:10px 20px;background:#4c9eeb;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;">
+                确认
+            </button>
+        </div>
+        <p id="pwd-error" style="color:red;display:none;">密码错误</p>
+    </div>
+    <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pwdInput = document.getElementById('pwd-input');
+        const pwdBtn = document.getElementById('pwd-btn');
+        const pwdError = document.getElementById('pwd-error');
+        const aboutContent = document.getElementById('about-content');
+        const passwordOverlay = document.getElementById('password-overlay');
+
+        if (!pwdBtn) return;
+
+        // 如果之前验证过，直接显示内容
+        if (sessionStorage.getItem('about-auth') === '1') {
+            aboutContent.style.display = 'flex';
+            passwordOverlay.style.display = 'none';
+            return;
+        }
+
+        function checkPassword() {
+            if (pwdInput.value === '5201314') {
+                sessionStorage.setItem('about-auth', '1');
+                aboutContent.style.display = 'flex';
+                passwordOverlay.style.display = 'none';
+            } else {
+                pwdError.style.display = 'block';
+                pwdInput.value = '';
+            }
+        }
+
+        pwdBtn.addEventListener('click', checkPassword);
+        pwdInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    });
+    </script>
 </MainGridLayout>
