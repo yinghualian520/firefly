@@ -35,16 +35,15 @@ const { Content } = await render(aboutPost);
         <p id="pwd-error" style="color:red;display:none;">密码错误</p>
     </div>
     <script is:inline>
-    document.addEventListener('DOMContentLoaded', function() {
+    function initPassword() {
         const pwdInput = document.getElementById('pwd-input');
         const pwdBtn = document.getElementById('pwd-btn');
         const pwdError = document.getElementById('pwd-error');
         const aboutContent = document.getElementById('about-content');
         const passwordOverlay = document.getElementById('password-overlay');
 
-        if (!pwdBtn) return;
+        if (!pwdBtn || !aboutContent) return;
 
-        // 如果之前验证过，直接显示内容
         if (sessionStorage.getItem('about-auth') === '1') {
             aboutContent.style.display = 'flex';
             passwordOverlay.style.display = 'none';
@@ -66,6 +65,10 @@ const { Content } = await render(aboutPost);
         pwdInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') checkPassword();
         });
-    });
+    }
+
+    document.addEventListener('DOMContentLoaded', initPassword);
+    document.addEventListener('astro:after-swap', initPassword);
+    document.addEventListener('swup:contentReplaced', initPassword);
     </script>
 </MainGridLayout>
